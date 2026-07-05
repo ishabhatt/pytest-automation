@@ -1,0 +1,23 @@
+[project]
+name = "pytest-automation"
+version = "0.1.0"
+requires-python = ">=3.9"
+dependencies = [
+    "allure-pytest>=2.16.0",
+    "pytest>=8.4.2",
+    "pytest-html>=4.2.0",
+    "pytest-metadata>=3.1.1",
+    "pytest-xdist>=3.8.0",
+    "selenium>=4.36.0",
+    "webdriver-manager>=4.1.2",
+]
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

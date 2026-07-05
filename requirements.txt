@@ -1,0 +1,7 @@
+pytest
+pytest-xdist
+pytest-html
+pytest-metadata
+selenium
+webdriver-manager
+allure-pytest

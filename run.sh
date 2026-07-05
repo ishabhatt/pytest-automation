@@ -1,0 +1,1 @@
+pytest -s -v tests/ -m "smoke" --browser chrome --headless --alluredir=allure-results
