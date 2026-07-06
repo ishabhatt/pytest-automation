@@ -5,11 +5,8 @@ from pathlib import Path
 import allure
 import pytest
 from pytest_metadata.plugin import metadata_key
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.firefox import GeckoDriverManager
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
+
+from drivers.driver_factory import DriverFactory
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 CONFIG_FILE = ROOT_DIR / "config" / "config.ini"
@@ -20,37 +17,13 @@ SCREENSHOT_DIR = ROOT_DIR / "screenshots"
 def setup(browser, request):
     driver = None
     headless = request.config.getoption("--headless")
-    if browser == "firefox":
-        print("Launching Firefox")
-        options = webdriver.FirefoxOptions()
-        if headless:
-            options.add_argument("--headless")
-        serviceObj = Service(GeckoDriverManager().install())
-        driver = webdriver.Firefox(service=serviceObj, options=options)
-    elif browser == "edge":
-        print("Launching Edge")
-        options = webdriver.EdgeOptions()
-        if headless:
-            options.add_argument("--headless=new")
-        serviceObj = Service(EdgeChromiumDriverManager().install())
-        driver = webdriver.Edge(service=serviceObj, options=options)
-    else:
-        print("Launching Chrome")
-        options = webdriver.ChromeOptions()
-        prefs = {
-            "credentials_enable_service": False,
-            "profile.password_manager_enabled": False,
-            "profile.password_manager_leak_detection": False,
-        }
-        options.add_experimental_option("prefs", prefs)
-        if headless:
-            options.add_argument("--headless=new")
-        serviceObj = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=serviceObj, options=options)
+
+    driver = DriverFactory.create_driver(browser=browser, headless=headless)
+
     request.node.driver = driver
     yield driver
-    if driver:
-        driver.quit()
+
+    driver.quit()
 
 
 @pytest.fixture()

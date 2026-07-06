@@ -15,21 +15,21 @@ class TestLogin:
     @pytest.mark.smoke
     def test_login(self, setup, env_config):
         self.logger.info("****TC0001 : Test Standard User Login****")
-        self.driver = setup
+        driver = setup
         with allure.step("Open application"):
-            self.driver.get(env_config["baseURL"])
+            driver.get(env_config["baseURL"])
             self.logger.info("* Open Browser and go to url")
-        self.driver.maximize_window()
+        driver.maximize_window()
 
-        self.login_page = LoginPage(self.driver)
+        login_page = LoginPage(driver)
         with allure.step("Login with valid credentials"):
             self.logger.info("* Enter valid username and password")
-            self.product_page = self.login_page.login(
+            product_page = login_page.login(
                 env_config["username"], env_config["password"]
             )
 
         with allure.step("Verify Login is successful"):
-            title = self.product_page.get_title()
+            title = product_page.get_title()
             self.logger.info("* Verify Products are displayed")
             assert title == "Products", (
                 f"Login Failed. Expected page title 'Products', but got '{title}'"

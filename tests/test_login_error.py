@@ -15,26 +15,24 @@ class TestLoginError:
     @pytest.mark.smoke
     def test_login_locked_user(self, setup, env_config):
         self.logger.info("****TC0002 : Test Locked User Login****")
-        self.driver = setup
+        driver = setup
         with allure.step("Open Application URL"):
-            self.driver.get(env_config["baseURL"])
+            driver.get(env_config["baseURL"])
             self.logger.info("* Open Browser and go to url")
-            self.driver.maximize_window()
+            driver.maximize_window()
 
-        self.login_page = LoginPage(self.driver)
+        login_page = LoginPage(driver)
         with allure.step("Login as locked user"):
             self.logger.info("* Enter locked username and password")
-            self.login_page.enter_username("locked_out_user")
-            self.login_page.enter_password(env_config["password"])
+            login_page.enter_username("locked_out_user")
+            login_page.enter_password(env_config["password"])
         with allure.step("Click Login"):
-            self.login_page.submit()
+            login_page.submit()
 
         with allure.step("Verify Login error"):
             self.logger.info("* Verify Error displayed")
-            assert self.login_page.is_error_visible(), (
-                "Expected login error not visible"
-            )
-            error_message = self.login_page.get_error()
+            assert login_page.is_error_visible(), "Expected login error not visible"
+            error_message = login_page.get_error()
             assert "Oops, this user has been locked out." in error_message, (
                 f"Unexpected error message: {error_message}"
             )

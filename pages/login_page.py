@@ -14,14 +14,10 @@ class LoginPage(BasePage):
         super().__init__(driver)
 
     def enter_username(self, username: str) -> None:
-        element = self.find_element(self.USERNAME_INPUT)
-        element.clear()
-        element.send_keys(username)
+        self.type_text(self.USERNAME_INPUT, username)
 
     def enter_password(self, password: str) -> None:
-        element = self.find_element(self.PASSWORD_INPUT)
-        element.clear()
-        element.send_keys(password)
+        self.type_text(self.PASSWORD_INPUT, password)
 
     def submit(self) -> None:
         self.click(self.LOGIN_BUTTON)
